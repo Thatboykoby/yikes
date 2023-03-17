@@ -1,0 +1,806 @@
+local enabled = false
+local loop = true
+
+local function runloop()
+    while loop and enabled do
+        getgenv().case = 'free case'
+        getgenv().loop = not loop
+
+        local Pages = game:GetService("Players").LocalPlayer.PlayerGui.GameFrame.Pages
+        local function CasePlace()
+            for i,v in next, Pages:GetChildren() do
+                if v:IsA('Frame') and v:FindFirstChild('CasesList') then
+                    return v
+                end
+            end
+        end
+
+        local function getCase(Case)
+            for i,v in next, CasePlace().CasesList:GetChildren() do
+                if v:IsA('TextButton') and v:FindFirstChildOfClass('TextLabel') and CasePlace().Visible then
+                    if v:FindFirstChildOfClass('TextLabel').Text:lower():find(Case:lower()) then
+                        return v
+                    end
+                end
+            end
+        end
+
+        function click_button(button, random_move)
+            local x, y = button.AbsolutePosition.X + button.AbsoluteSize.X / 2, button.AbsolutePosition.Y + 50
+            if random_move then
+                x = x + math.random(-25, 35)
+                y = y + math.random(-15, 20)
+            end
+            game:GetService("VirtualInputManager"):SendMouseButtonEvent(x, y, 0, true, button, 1)
+            game:GetService("VirtualInputManager"):SendMouseButtonEvent(x, y, 0, false, button, 1)
+        end
+
+        local fart = game:GetService("Players").LocalPlayer.PlayerGui.GameFrame.CenterFrame.Unboxed
+        local Sell = game:GetService("Players").LocalPlayer.PlayerGui.GameFrame.CenterFrame.Unboxed.ButtonsFrame.Keep
+
+        if CasePlace().Visible then
+            if fart.Visible then
+                click_button(Sell, true)
+            end
+            click_button(getCase(case), true)
+        end
+
+        local click_times = {0.7, 1, 1,3, 1.5, 1.7,}
+        local next_click_time = table.remove(click_times, math.random(#click_times))
+
+        task.wait(next_click_time)
+    end
+end
+
+
+
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "Case Opening Simulator 2 GUI", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+local Features = Window:MakeTab({
+    Name = "Features",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+Features:AddLabel("-Auto Mod Detection")
+Features:AddLabel("-Auto Open Free Case")
+Features:AddLabel("-Case Predictions")
+Features:AddLabel("-Auto Add Jackpot")
+Features:AddLabel("-Auto Bid Case Battles")
+Features:AddLabel("-Auto Sell Hats")
+Features:AddLabel("-Auto Claim VIP Daily Bonus")
+Features:AddLabel("-Sell Inventory")
+Features:AddLabel("-Trash Talk")
+Features:AddLabel("-Server Rejoin (V)")
+
+
+local Cases = Window:MakeTab({
+    Name = "Cases",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local Jackpot = Window:MakeTab({
+  Name = "Jackpot",
+  Icon = "rbxassetid://4483345998",
+  PremiumOnly = false
+})
+
+local selectedItem = "Select a Hat" 
+local autoAddJackpot = false
+
+local function notifyAddHat(hatName)
+  local notification = OrionLib:MakeNotification({
+      Name = "Jackpot",
+      Content = "Added " .. hatName .. " to jackpot!",
+      Image = "rbxassetid://4483345998",
+      Time = 2
+  })
+end
+
+local function addToJackpot()
+  if selectedItem ~= "Select a Hat" then
+      game:GetService("ReplicatedStorage").Events.Minigames.Jackpot.JoinJackpot:FireServer(selectedItem)
+      notifyAddHat(selectedItem)
+  end
+end
+
+Jackpot:AddDropdown({
+  Name = "Select a hat",
+  Default = "Select a Hat",
+  Options = {
+      "Select a Hat",
+      "Shaggy",
+      "Xtreme Monochrome Hair",
+      "Neon Green Equinox",
+      "Cyanime Super Star",
+      "Lost Boy of Summer Hair",
+      "Violet Equinox",
+      "Laser Beam Mohawk",
+      "Violet Starry Sight"
+  },
+  Callback = function(Value)
+      selectedItem = Value -- update the variable to the selected value
+      print("Selected item: " .. selectedItem)
+  end
+})
+-- Create the toggle button
+Jackpot:AddToggle({
+  Name = "Auto Add Jackpot!",
+  Default = false,
+  Callback = function(Value)
+      autoAddJackpot = Value -- update the variable to the current value of the toggle
+      print("Auto_Add Jackpot: " .. tostring(Value))
+      if autoAddJackpot then -- add to jackpot only if auto-add is enabled
+          while autoAddJackpot do
+              addToJackpot()
+              wait(15)
+          end
+      end
+  end
+}) 
+
+
+Cases:AddToggle({
+    Name = "Auto Open Free Case (KEEP)",
+    Default = false,
+    Callback = function(Value)
+        enabled = Value
+        runloop()
+    end    
+})
+
+local enabled = false
+local loop = true
+
+local function runloop1()
+    while loop and enabled do
+        getgenv().case = 'free case'
+        getgenv().loop = not loop
+
+        local Pages = game:GetService("Players").LocalPlayer.PlayerGui.GameFrame.Pages
+        local function CasePlace()
+            for i,v in next, Pages:GetChildren() do
+                if v:IsA('Frame') and v:FindFirstChild('CasesList') then
+                    return v
+                end
+            end
+        end
+
+        local function getCase(Case)
+            for i,v in next, CasePlace().CasesList:GetChildren() do
+                if v:IsA('TextButton') and v:FindFirstChildOfClass('TextLabel') and CasePlace().Visible then
+                    if v:FindFirstChildOfClass('TextLabel').Text:lower():find(Case:lower()) then
+                        return v
+                    end
+                end
+            end
+        end
+
+        function click_button(button, random_move)
+            local x, y = button.AbsolutePosition.X + button.AbsoluteSize.X / 2, button.AbsolutePosition.Y + 50
+            if random_move then
+                x = x + math.random(-25, 35)
+                y = y + math.random(-15, 20)
+            end
+            game:GetService("VirtualInputManager"):SendMouseButtonEvent(x, y, 0, true, button, 1)
+            game:GetService("VirtualInputManager"):SendMouseButtonEvent(x, y, 0, false, button, 1)
+        end
+
+        local fart = game:GetService("Players").LocalPlayer.PlayerGui.GameFrame.CenterFrame.Unboxed
+        local Sell = game:GetService("Players").LocalPlayer.PlayerGui.GameFrame.CenterFrame.Unboxed.ButtonsFrame.Sell
+
+        if CasePlace().Visible then
+            if fart.Visible then
+                click_button(Sell, true)
+            end
+            click_button(getCase(case), true)
+        end
+
+        local click_times = {0.7, 1, 1,3, 1.5, 1.7,}
+        local next_click_time = table.remove(click_times, math.random(#click_times))
+
+        task.wait(next_click_time)
+    end
+end
+
+
+Cases:AddToggle({
+    Name = "Auto Open Free Case (SELL)",
+    Default = false,
+    Callback = function(Value)
+        enabled = Value
+        runloop1()
+    end    
+})
+
+
+local HatsFolder = game:GetService("Players").LocalPlayer.Hats
+local hatCosts = {
+  ["Shaggy"] = 0.1,
+  ["Xtreme Monochrome Hair"] = 0.2,
+  ["Neon Green Equinox"] = 0.29,
+  ["Cyanime Super Star"] = 0.52,
+  ["Lost Boy of Summer Hair"] = 0.91,
+  ["Violet Equinox"] = 1.31,
+  ["Laser Beam Mohawk"] = 1.64,
+  ["Violet Starry Sight"] = 5.4,
+}
+
+local toggleOn = false
+
+Cases:AddToggle({
+  Name = "Case Predicion",
+  Default = false,
+  Callback = function(value)
+    toggleOn = value
+  end    
+})
+
+HatsFolder.ChildAdded:Connect(function(child)
+  if toggleOn then
+    local hatCost = hatCosts[child.Name]
+    if hatCost then
+      OrionLib:MakeNotification({
+        Name = "New Hat!!",
+        Content = string.format("%s ($%.2f)", child.Name, hatCost),
+        Image = "rbxassetid://10514822281",
+        Time = 9
+      })
+    else
+      OrionLib:MakeNotification({
+        Name = "New Hat!!",
+        Content = child.Name,
+        Image = "rbxassetid://10514822281",
+        Time = 9
+      })
+    end
+  end
+end)
+
+
+
+local CaseBattles = Window:MakeTab({
+	Name = "Case Battles",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+
+local cases = {
+    {"Stylish Case", 0.62},
+    {"Inferno Case", 0.79},
+    {"Polished Case", 1.45},
+    {"Bee Case", 1.46},
+    {"10% Bombastic Case", 1.98},
+    {"Clean Case", 1.98},
+    {"Red Light Case", 3.09},
+    {"Juice Case", 3.13},
+    {"Rainfall Case", 4.55},
+    {"5% Fedora Case", 5.2},
+    {"5% Flimsy Case", 5.93},
+    {"Forcefield Case", 6.88},
+    {"Spilt Case", 8.65},
+    {"Risk Case", 9.12},
+    {"10% Fedora Case", 10.63},
+    {"Cooler Case", 10.84},
+    {"Vaporwave Case", 13.02},
+    {"Eco Case", 14.92},
+    {"Illumination Case", 20.59},
+    {"5% Periastron Case", 23.64},
+    {"Green Light Case", 25.88},
+    {"Question Case", 32.45},
+    {"Grind Case", 37.39},
+    {"70% Sneakers Case", 38.01},
+}
+
+local selectedCase = cases[1]
+local toggleOn = false
+
+CaseBattles:AddDropdown({
+    Name = "Case Battles ",
+    Default = "Select A Case",
+    Options = {"Select A Case", "Stylish Case (0.62$)", "Inferno Case (0.79$)", "Polished Case (1.45$)", "Bee Case (1.46$)", "10% Bombastic Case (1.98$)", "Clean Case (1.98$)", "Red Light Case (3.09$)", "Juice Case (3.13$)", "Rainfall Case (4.55$)", "5% Fedora Case (5.2$)", "5% Flimsy Case (5.93$)", "Forcefield Case (6.88$)", "Spilt Case (8.65$)", "Risk Case (9.12$)", "10% Fedora Case (10.63$)", "Cooler Case (10.84$)", "Vaporwave Case (13.02$)", "Eco Case (14.92$)", "Illumination Case (20.59$)", "5% Periastron Case (23.64$)", "Green Light Case (25.88$)", "Question Case (32.45$)", "Grind Case (37.39$)", "70% Sneakers Case (38.01$)"},
+    Callback = function(Value)
+        for _, case in ipairs(cases) do
+            if Value == case[1] then
+                selectedCase = case
+                OrionLib:MakeNotification({
+                    Name = "Selected Case",
+                    Content = "Selected Case: " .. selectedCase[1] .. " (" .. selectedCase[2] .. "$)",
+                    Image = "rbxassetid://4483345998",
+                    Time = 10
+                })
+                break
+            end
+        end
+    end
+})
+
+CaseBattles:AddButton({
+    Name = "Open Selected Case",
+    Callback = function()
+        local numCasesToOpen = 1  -- by default, open only one case
+        if selectedCase[1] == "10% Bombastic Case" or selectedCase[1] == "10% Fedora Case" or selectedCase[1] == "5% Fedora Case" or selectedCase[1] == "5% Flimsy Case" or selectedCase[1] == "5% Periastron Case" or selectedCase[1] == "70% Sneakers Case" then
+            numCasesToOpen = 10  -- open 10 cases for these cases
+        end
+        game:GetService("ReplicatedStorage").Events.CreateCaseBattle:FireServer(selectedCase[1], numCasesToOpen)
+        OrionLib:MakeNotification({
+            Name = "Case Battles Opened",
+            Content = "Opening Case: " .. selectedCase[1] .. " (" .. selectedCase[2] .. "$)",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end
+})
+
+CaseBattles:AddToggle({
+    Name = "Toggle Auto-Battles",
+    Default = false,
+    Callback = function(Value)
+        toggleOn = Value
+        while toggleOn do
+            game:GetService("ReplicatedStorage").Events.Minigames.CaseBattles.CallBot:InvokeServer(game:GetService("ReplicatedStorage").Minigames.CasesBattles.BattlesList.ThaneOfMoney)
+            wait(2)
+        end
+    end    
+})
+
+
+
+
+local Inventory = Window:MakeTab({
+    Name = "Inventory",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local HatsFolder = game:GetService("Players").LocalPlayer.Hats
+local hatCosts = {
+  ["Shaggy"] = 0.1,
+  ["Xtreme Monochrome Hair"] = 0.2,
+  ["Neon Green Equinox"] = 0.29,
+  ["Cyanime Super Star"] = 0.52,
+  ["Lost Boy of Summer Hair"] = 0.91,
+  ["Violet Equinox"] = 1.31,
+  ["Laser Beam Mohawk"] = 1.64,
+  ["Violet Starry Sight"] = 5.4,
+}
+
+local function sellAllHats()
+  for _, hat in pairs(HatsFolder:GetChildren()) do
+    game:GetService("ReplicatedStorage").Events.SellItem:InvokeServer(hat.Name)
+  end
+end
+
+local HatsFolder = game:GetService("Players").LocalPlayer.Hats
+local hatCosts = {
+  ["Shaggy"] = 0.1,
+  ["Xtreme Monochrome Hair"] = 0.2,
+  ["Neon Green Equinox"] = 0.29,
+  ["Cyanime Super Star"] = 0.52,
+  ["Lost Boy of Summer Hair"] = 0.91,
+  ["Violet Equinox"] = 1.31,
+  ["Laser Beam Mohawk"] = 1.64,
+  ["Violet Starry Sight"] = 5.4,
+}
+
+local lastSellTime = 0
+local sellCooldown = 2 
+
+local function sellAllHats()
+  for _, hat in pairs(HatsFolder:GetChildren()) do
+    game:GetService("ReplicatedStorage").Events.SellItem:InvokeServer(hat.Name)
+  end
+end
+
+Inventory:AddBind({
+  Name = "Sell Inventory",
+  Default = Enum.KeyCode.T,
+  Hold = false,
+  Callback = function()
+    local currentTime = tick()
+    if currentTime - lastSellTime >= sellCooldown then
+      sellAllHats()
+      game:GetService("ReplicatedStorage").Events.SellDoubles:InvokeServer()
+      game:GetService("ReplicatedStorage").Events.SellItem:InvokeServer("Shaggy")
+      game:GetService("ReplicatedStorage").Events.SellItem:InvokeServer("Xtreme Monochrome Hair")
+      game:GetService("ReplicatedStorage").Events.SellItem:InvokeServer("Neon Green Equinoxr")
+      game:GetService("ReplicatedStorage").Events.SellItem:InvokeServer("Cyanime Super Star")
+      game:GetService("ReplicatedStorage").Events.SellItem:InvokeServer("Lost Boy of Summer Hair")
+      game:GetService("ReplicatedStorage").Events.SellItem:InvokeServer("Violet Equinox")
+      game:GetService("ReplicatedStorage").Events.SellItem:InvokeServer("Laser Beam Mohawk")
+      game:GetService("ReplicatedStorage").Events.SellItem:InvokeServer("Violet Starry Sight")
+      OrionLib:MakeNotification({
+        Name = "Sold Inventory!",
+        Content = "You have sold your hats in your inventory",
+        Image = "rbxassetid://4483345998",
+        Time = 0.1
+      })
+      lastSellTime = currentTime
+    else
+      OrionLib:MakeNotification({
+        Name = "Sell Cooldown",
+        Content = "You need to wait "..(sellCooldown - (currentTime - lastSellTime)).." seconds before selling again",
+        Image = "rbxassetid://4483345998",
+        Time = 3
+      })
+    end
+  end
+})
+
+local hatsToSell = {
+    "Shaggy",
+    "Xtreme Monochrome Hair",
+    "Neon Green Equinoxr",
+    "Cyanime Super Star",
+    "Lost Boy of Summer Hair",
+    "Violet Equinox",
+    "Laser Beam Mohawk",
+    "Violet Starry Sight"
+}
+
+local sellingEnabled = false
+local sellIndex = 1
+
+Inventory:AddToggle({
+    Name = "Auto Sell Hats",
+    Default = false,
+    Callback = function(value)
+        sellingEnabled = value
+        if value then
+            sellIndex = 1
+            sellHats()
+        end
+    end
+})
+
+function sellHats()
+    if not sellingEnabled then
+        return
+    end
+    
+    local hatName = hatsToSell[sellIndex]
+    
+    if hatName then
+        game:GetService("ReplicatedStorage").Events.SellItem:InvokeServer(hatName)
+        sellIndex = sellIndex + 1
+        wait(0.00000000001) -- add a short delay to sell hats faster
+    else
+        sellIndex = 1
+    end
+    
+    game:GetService("RunService").Heartbeat:Wait()
+    wait(0.00000000001) -- add a delay to sell hats every 0.1 seconds
+    sellHats()
+end
+
+
+local Server = Window:MakeTab({
+	Name = "Server",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local trashTalkMessages = {
+    "You call that playing? I've seen better from a bot!",
+    "Do you even know how to play this game?",
+    "I didn't realize this was a beginner's lobby.",
+    "I'm starting to feel bad for you your so bad.",
+    "Is that the best you can do?",
+    "You might as well just quit now.",
+    "Maybe you should try playing something easier.",
+    "Go back to adopt me, Holy.",
+    "Buddy wrong game for you.",
+    "Keep crying monkey.",
+    "Joke? You are a joke.",
+    "Meepcity it is for you, back you go!",
+    "You make the server unlucky LEAVE!",
+    "WaaWaa Cry about it.",
+    "I bet you’re that guy that dies in the tutorial.",
+    "Omg shut uppppp.",
+    "You are SOOO ANNOYING!!!",
+    "Reported, getting you banned today!",
+    "Easier game fits you.",
+    "Roblox? Go to minecraft and cry.",
+    "All talk no bite",
+    "Yeah yeah whatever baby",
+    "Grip a lim",
+    "Lie? Your the lie",
+    "Go flip 50k",
+    "Lil boy.",
+    "Cant pull? Pull what?",
+    "Kid your a jerk!",
+    "Buddy im so much better!",
+    "UR TRASH KID",
+    "L",
+    "EZ",
+    "GET SLAPPED",
+    "HOW DID YOU LOSE",
+    "WYD? LOL",
+    "Smh",
+    "too bad",
+    "ROFL",
+    "F",
+    "YOU'RE GARBAGE",
+    "GET CLAPPED",
+    "IM GOING TO SAY IT!"
+}
+
+local trashTalkCooldown = 3 
+local canTrashTalk = true
+
+function setCanTrashTalk()
+    canTrashTalk = true
+end
+
+Server:AddBind({
+    Name = "Trash Talk",
+    Default = Enum.KeyCode.E,
+    Hold = false,
+    Callback = function()
+        if canTrashTalk then
+            local randomIndex = math.random(1, #trashTalkMessages)
+            game:GetService("ReplicatedStorage").Events.SendChat:InvokeServer(trashTalkMessages[randomIndex])
+            canTrashTalk = false
+            OrionLib:MakeNotification({
+                Name = "Trash Talk Cooldown",
+                Content = "You can trash talk again in " .. trashTalkCooldown .. " seconds",
+                Image = "rbxassetid://4483345998",
+                Time = trashTalkCooldown
+            })
+            wait(trashTalkCooldown)
+            setCanTrashTalk()
+        else
+            OrionLib:MakeNotification({
+                Name = "Trash Talk Cooldown",
+                Content = "You can't trash talk yet, try again in " .. math.ceil(trashTalkCooldown - (tick() - lastTrashTalk)) .. " seconds",
+                Image = "rbxassetid://4483345998",
+                Time = math.ceil(trashTalkCooldown - (tick() - lastTrashTalk))
+            })
+        end
+    end    
+})
+
+local claimBonus = false
+
+local function invokeClaimBonus()
+    while claimBonus do
+        game:GetService("ReplicatedStorage").Events.Gamepasses.ClaimVIPDailyBonus:InvokeServer()
+        wait(10)
+    end
+end
+
+Server:AddToggle({
+    Name = "Auto Claim VIP Daily Bonus",
+    Default = false,
+    Callback = function(Value)
+        claimBonus = Value
+        if claimBonus then
+            invokeClaimBonus()
+        end
+    end
+})
+
+Server:AddBind({
+    Name = "Server Rejoin",
+    Default = Enum.KeyCode.V,
+    Hold = false,
+    Callback = function()
+        game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
+    end
+})
+
+
+
+
+local playerIdsToNotify = {2707855515, 1578219126, 406296, 4041714512, 2710760012, 616553128, 41155812} -- Replace with the IDs of the players you want to notify
+
+Server:AddButton({
+    Name = "Script Check!",
+    Callback = function()
+        print("button pressed")
+        
+        -- Get the players who have the script and match the IDs in the list
+        local players = {}
+        for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+            if table.find(playerIdsToNotify, player.UserId) then
+                table.insert(players, player)
+            end
+        end
+        
+        -- Construct the title and content of the notification based on the number of matching players
+        local numPlayers = #players
+        local title = "Script Users"
+        local content = ""
+        if numPlayers == 0 then
+            title = "No matching players"
+            content = "None of the players with the specified IDs are in the game."
+        else
+            title = "Script Users (" .. numPlayers .. ")"
+            for i, player in ipairs(players) do
+                content = content .. player.Name
+                if i < numPlayers - 1 then
+                    content = content .. ", "
+                elseif i == numPlayers - 1 then
+                    content = content .. " and "
+                end
+            end
+            content = content .. " is using the script."
+        end
+        
+        -- Create the notification
+        for _, player in pairs(players) do
+            OrionLib:MakeNotification({
+                Player = player,
+                Name = title,
+                Content = content,
+                Image = "rbxassetid://4483345998",
+                Time = 10
+            })
+        end
+    end
+})
+
+
+
+
+
+
+
+-- Create a new tab named "Support Me"
+local SupportMeTab = Window:MakeTab({
+    Name = "Support Me",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Create a new button named "Discord Link" inside the "Support Me" tab
+SupportMeTab:AddButton({
+    Name = "Discord Link",
+    Callback = function()
+        -- Set the clipboard to the Discord link
+        syn.write_clipboard("https://discord.gg/NKWNtDF9")
+
+        -- Display a notification that says "Discord link copied to clipboard!"
+        OrionLib:MakeNotification({
+            Name = "Discord Link",
+            Content = "Discord link copied to clipboard!",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end
+})
+
+-- Create a new button named "Discord Link" inside the "Support Me" tab
+SupportMeTab:AddButton({
+    Name = "Youtube Link",
+    Callback = function()
+        -- Set the clipboard to the Discord link
+        syn.write_clipboard("https://www.youtube.com/watch?v=kHWRraMXeu4")
+
+        -- Display a notification that says "Discord link copied to clipboard!"
+        OrionLib:MakeNotification({
+            Name = "Youtube Link",
+            Content = "Youtube link copied to clipboard!",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end
+})
+
+-- Create a new button named "Discord Link" inside the "Support Me" tab
+SupportMeTab:AddButton({
+    Name = "Paypal Link",
+    Callback = function()
+        -- Set the clipboard to the Discord link
+        syn.write_clipboard("jakobyfish@gmail.com")
+
+        -- Display a notification that says "Discord link copied to clipboard!"
+        OrionLib:MakeNotification({
+            Name = "Paypal Link",
+            Content = "Paypal link copied to clipboard!",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end
+})
+
+-- Create a new button named "Discord Link" inside the "Support Me" tab
+SupportMeTab:AddButton({
+    Name = "Cashapp Link",
+    Callback = function()
+        -- Set the clipboard to the Discord link
+        syn.write_clipboard("$jakobybrouillard")
+
+        -- Display a notification that says "Discord link copied to clipboard!"
+        OrionLib:MakeNotification({
+            Name = "Cashapp Link",
+            Content = "Cashapp link copied to clipboard!",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end
+})
+
+
+
+
+
+
+-- Variables to keep track of whether notifications should be sent
+local notifyEnabled = false
+-- The UserIds of the players to notify
+local playerIdsToNotify = {45778053, 1130267392, 637156564}
+-- Function to notify player join
+local function notifyPlayerJoin(player)
+    OrionLib:MakeNotification({
+        Name = "a retard has joined the game",
+        Content = player.Name .. " the retard has joined the server!",
+        Image = "rbxassetid://4483345998",
+        Time = 10
+    })
+end
+-- Function to notify player leave
+local function notifyPlayerLeave(player)
+    OrionLib:MakeNotification({
+        Name = "Player has left the game.",
+        Content = player.Name .. " has left the server.",
+        Image = "rbxassetid://4483345998",
+        Time = 10
+    })
+end
+-- Function to check for player join or leave
+local function checkForPlayerJoinOrLeave()
+    -- Assume that there is a list of players
+    local players = game:GetService("Players"):GetPlayers()
+    local playerPresent = false
+    while true do
+        -- Get the latest list of players
+        local newPlayers = game:GetService("Players"):GetPlayers()
+        -- Find the difference between the new and old list of players
+        local playerDiff = {}
+        for _, oldPlayer in ipairs(players) do
+            local found = false
+            for _, newPlayer in ipairs(newPlayers) do
+                if newPlayer == oldPlayer then
+                    found = true
+                    break
+                end
+            end
+            if not found and table.find(playerIdsToNotify, oldPlayer.UserId) then
+                playerPresent = false
+                notifyPlayerLeave(oldPlayer)
+            end
+        end
+        for _, newPlayer in ipairs(newPlayers) do
+            local found = false
+            for _, oldPlayer in ipairs(players) do
+                if newPlayer == oldPlayer then
+                    found = true
+                    break
+                end
+            end
+            if not found and table.find(playerIdsToNotify, newPlayer.UserId) then
+                playerPresent = true
+                notifyPlayerJoin(newPlayer)
+            end
+        end
+
+        players = newPlayers
+        if playerPresent and not notifyEnabled then
+            notifyEnabled = true
+        elseif not playerPresent and notifyEnabled then
+            notifyEnabled = false
+        end
+        wait(0.1) 
+    end
+end
+
+checkForPlayerJoinOrLeave()
+
+
+Cases:SetOption("Notification Toggle", true)
+
+OrionLib:Init()
